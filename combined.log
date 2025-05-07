@@ -1,12 +1,72 @@
-{"level":"info","message":"Successfully fetched items for order 113-1808142-1101061","timestamp":"2025-05-07T16:04:43.669Z"}
-{"level":"info","message":"Fetching details for order 111-3544321-8720262...","timestamp":"2025-05-07T16:05:13.753Z"}
-{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262","timestamp":"2025-05-07T16:05:13.754Z"}
-{"level":"info","message":"Successfully fetched details for order 111-3544321-8720262","timestamp":"2025-05-07T16:05:25.304Z"}
-{"level":"info","message":"Fetching items for order 111-3544321-8720262...","timestamp":"2025-05-07T16:06:22.233Z"}
-{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262/orderItems","timestamp":"2025-05-07T16:06:22.233Z"}
-{"level":"info","message":"Successfully fetched items for order 111-3544321-8720262","timestamp":"2025-05-07T16:06:22.807Z"}
-{"level":"info","message":"Fetching details for order 113-6274861-6426625...","timestamp":"2025-05-07T16:06:23.816Z"}
-{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625","timestamp":"2025-05-07T16:06:23.818Z"}
-{"level":"info","message":"Successfully fetched details for order 113-6274861-6426625","timestamp":"2025-05-07T16:06:24.031Z"}
-{"level":"info","message":"Fetching items for order 113-6274861-6426625...","timestamp":"2025-05-07T16:06:25.046Z"}
-{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625/orderItems","timestamp":"2025-05-07T16:06:25.046Z"}
+{"level":"info","message":"Fetching orders...","timestamp":"2025-05-07T17:38:24.289Z"}
+{"level":"info","message":"Successfully obtained new access token","timestamp":"2025-05-07T17:38:24.811Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders?MarketplaceIds=ATVPDKIKX0DER&CreatedAfter=2025-05-05T15%3A17%3A10.745Z&CreatedBefore=2025-05-06T15%3A17%3A10.747Z&OrderStatuses=Shipped&OrderStatuses=Unshipped","timestamp":"2025-05-07T17:38:24.812Z"}
+{"level":"info","message":"Successfully fetched 100 orders","timestamp":"2025-05-07T17:38:26.214Z"}
+{"level":"info","message":"Fetching details for order 113-1808142-1101061...","timestamp":"2025-05-07T17:38:27.222Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061","timestamp":"2025-05-07T17:38:27.223Z"}
+{"level":"info","message":"Successfully fetched details for order 113-1808142-1101061","timestamp":"2025-05-07T17:38:27.430Z"}
+{"level":"info","message":"Fetching items for order 113-1808142-1101061...","timestamp":"2025-05-07T17:38:28.439Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061/orderItems","timestamp":"2025-05-07T17:38:28.441Z"}
+{"level":"info","message":"Successfully fetched items for order 113-1808142-1101061","timestamp":"2025-05-07T17:38:28.625Z"}
+{"level":"info","message":"Fetching details for order 111-3544321-8720262...","timestamp":"2025-05-07T17:38:29.636Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262","timestamp":"2025-05-07T17:38:29.637Z"}
+{"level":"info","message":"Successfully fetched details for order 111-3544321-8720262","timestamp":"2025-05-07T17:38:29.853Z"}
+{"level":"info","message":"Fetching items for order 111-3544321-8720262...","timestamp":"2025-05-07T17:38:30.857Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262/orderItems","timestamp":"2025-05-07T17:38:30.858Z"}
+{"level":"info","message":"Successfully fetched items for order 111-3544321-8720262","timestamp":"2025-05-07T17:38:31.045Z"}
+{"level":"info","message":"Fetching details for order 113-6274861-6426625...","timestamp":"2025-05-07T17:38:32.055Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625","timestamp":"2025-05-07T17:38:32.058Z"}
+{"level":"info","message":"Successfully fetched details for order 113-6274861-6426625","timestamp":"2025-05-07T17:38:32.281Z"}
+{"level":"info","message":"Fetching items for order 113-6274861-6426625...","timestamp":"2025-05-07T17:38:33.288Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625/orderItems","timestamp":"2025-05-07T17:38:33.289Z"}
+{"level":"info","message":"Successfully fetched items for order 113-6274861-6426625","timestamp":"2025-05-07T17:38:33.477Z"}
+{"level":"info","message":"Fetching details for order 114-4629569-4433846...","timestamp":"2025-05-07T17:38:34.491Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/114-4629569-4433846","timestamp":"2025-05-07T17:38:34.491Z"}
+{"level":"info","message":"Successfully fetched details for order 114-4629569-4433846","timestamp":"2025-05-07T17:38:34.700Z"}
+{"level":"info","message":"Fetching items for order 114-4629569-4433846...","timestamp":"2025-05-07T17:38:35.706Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/114-4629569-4433846/orderItems","timestamp":"2025-05-07T17:38:35.707Z"}
+{"level":"info","message":"Successfully fetched items for order 114-4629569-4433846","timestamp":"2025-05-07T17:38:35.897Z"}
+{"level":"info","message":"Fetching details for order 113-0463354-9246603...","timestamp":"2025-05-07T17:38:36.906Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-0463354-9246603","timestamp":"2025-05-07T17:38:36.909Z"}
+{"level":"info","message":"Successfully fetched details for order 113-0463354-9246603","timestamp":"2025-05-07T17:38:37.115Z"}
+{"level":"info","message":"Fetching items for order 113-0463354-9246603...","timestamp":"2025-05-07T17:38:38.121Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-0463354-9246603/orderItems","timestamp":"2025-05-07T17:38:38.122Z"}
+{"level":"info","message":"Successfully fetched items for order 113-0463354-9246603","timestamp":"2025-05-07T17:38:38.313Z"}
+{"level":"info","message":"Fetching details for order 111-3071448-3621062...","timestamp":"2025-05-07T17:38:39.324Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3071448-3621062","timestamp":"2025-05-07T17:38:39.327Z"}
+{"level":"info","message":"Successfully fetched details for order 111-3071448-3621062","timestamp":"2025-05-07T17:38:39.537Z"}
+{"level":"info","message":"Fetching items for order 111-3071448-3621062...","timestamp":"2025-05-07T17:38:40.540Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3071448-3621062/orderItems","timestamp":"2025-05-07T17:38:40.543Z"}
+{"level":"info","message":"Successfully fetched items for order 111-3071448-3621062","timestamp":"2025-05-07T17:38:40.728Z"}
+{"level":"info","message":"Fetching details for order 111-3034399-2366644...","timestamp":"2025-05-07T17:38:41.742Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3034399-2366644","timestamp":"2025-05-07T17:38:41.744Z"}
+{"level":"info","message":"Successfully fetched details for order 111-3034399-2366644","timestamp":"2025-05-07T17:38:41.947Z"}
+{"level":"info","message":"Fetching items for order 111-3034399-2366644...","timestamp":"2025-05-07T17:38:42.956Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3034399-2366644/orderItems","timestamp":"2025-05-07T17:38:42.958Z"}
+{"level":"info","message":"Successfully fetched items for order 111-3034399-2366644","timestamp":"2025-05-07T17:38:43.189Z"}
+{"level":"info","message":"Fetching details for order 113-0614866-5675414...","timestamp":"2025-05-07T17:38:44.203Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-0614866-5675414","timestamp":"2025-05-07T17:38:44.204Z"}
+{"level":"info","message":"Successfully fetched details for order 113-0614866-5675414","timestamp":"2025-05-07T17:38:44.418Z"}
+{"level":"info","message":"Fetching items for order 113-0614866-5675414...","timestamp":"2025-05-07T17:38:45.433Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-0614866-5675414/orderItems","timestamp":"2025-05-07T17:38:45.434Z"}
+{"level":"info","message":"Successfully fetched items for order 113-0614866-5675414","timestamp":"2025-05-07T17:38:45.627Z"}
+{"level":"info","message":"Fetching details for order 114-1501255-5546633...","timestamp":"2025-05-07T17:38:46.639Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/114-1501255-5546633","timestamp":"2025-05-07T17:38:46.642Z"}
+{"level":"info","message":"Successfully fetched details for order 114-1501255-5546633","timestamp":"2025-05-07T17:38:46.863Z"}
+{"level":"info","message":"Fetching items for order 114-1501255-5546633...","timestamp":"2025-05-07T17:38:47.873Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/114-1501255-5546633/orderItems","timestamp":"2025-05-07T17:38:47.874Z"}
+{"level":"info","message":"Successfully fetched items for order 114-1501255-5546633","timestamp":"2025-05-07T17:38:48.060Z"}
+{"level":"info","message":"Fetching details for order 111-2285978-9069047...","timestamp":"2025-05-07T17:38:49.072Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-2285978-9069047","timestamp":"2025-05-07T17:38:49.075Z"}
+{"level":"info","message":"Successfully fetched details for order 111-2285978-9069047","timestamp":"2025-05-07T17:38:49.280Z"}
+{"level":"info","message":"Fetching items for order 111-2285978-9069047...","timestamp":"2025-05-07T17:38:50.289Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-2285978-9069047/orderItems","timestamp":"2025-05-07T17:38:50.290Z"}
+{"level":"info","message":"Successfully fetched items for order 111-2285978-9069047","timestamp":"2025-05-07T17:38:50.477Z"}
+{"level":"info","message":"Fetching details for order 113-8221561-2756200...","timestamp":"2025-05-07T17:38:51.487Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-8221561-2756200","timestamp":"2025-05-07T17:38:51.489Z"}
+{"level":"info","message":"Successfully fetched details for order 113-8221561-2756200","timestamp":"2025-05-07T17:38:51.706Z"}
+{"level":"info","message":"Fetching items for order 113-8221561-2756200...","timestamp":"2025-05-07T17:38:52.718Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-8221561-2756200/orderItems","timestamp":"2025-05-07T17:38:52.719Z"}
+{"level":"info","message":"Successfully fetched items for order 113-8221561-2756200","timestamp":"2025-05-07T17:38:52.914Z"}
+{"level":"info","message":"Fetching details for order 112-6603059-4096260...","timestamp":"2025-05-07T17:38:53.922Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/112-6603059-4096260","timestamp":"2025-05-07T17:38:53.922Z"}
