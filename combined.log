@@ -1,0 +1,12 @@
+{"level":"info","message":"Successfully fetched items for order 113-1808142-1101061","timestamp":"2025-05-07T16:04:43.669Z"}
+{"level":"info","message":"Fetching details for order 111-3544321-8720262...","timestamp":"2025-05-07T16:05:13.753Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262","timestamp":"2025-05-07T16:05:13.754Z"}
+{"level":"info","message":"Successfully fetched details for order 111-3544321-8720262","timestamp":"2025-05-07T16:05:25.304Z"}
+{"level":"info","message":"Fetching items for order 111-3544321-8720262...","timestamp":"2025-05-07T16:06:22.233Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262/orderItems","timestamp":"2025-05-07T16:06:22.233Z"}
+{"level":"info","message":"Successfully fetched items for order 111-3544321-8720262","timestamp":"2025-05-07T16:06:22.807Z"}
+{"level":"info","message":"Fetching details for order 113-6274861-6426625...","timestamp":"2025-05-07T16:06:23.816Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625","timestamp":"2025-05-07T16:06:23.818Z"}
+{"level":"info","message":"Successfully fetched details for order 113-6274861-6426625","timestamp":"2025-05-07T16:06:24.031Z"}
+{"level":"info","message":"Fetching items for order 113-6274861-6426625...","timestamp":"2025-05-07T16:06:25.046Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625/orderItems","timestamp":"2025-05-07T16:06:25.046Z"}
