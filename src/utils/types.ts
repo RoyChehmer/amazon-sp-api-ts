@@ -1,20 +1,20 @@
 export interface AmazonOrder {
     amazonOrderId: string;
     purchaseDate: Date;
-    lastUpdateDate: Date;
+    lastUpdateDate?: Date;
     orderStatus: string;
-    fulfillmentChannel: string;
-    salesChannel: string;
-    orderChannel: string;
-    shipServiceLevel: string;
-    shippingAddress: any;
-    orderTotal: any;
+    fulfillmentChannel?: string;
+    salesChannel?: string;
+    orderChannel?: string;
+    shipServiceLevel?: string;
+    shippingAddress?: any;
+    orderTotal?: any;
     numberOfItemsShipped: number;
     numberOfItemsUnshipped: number;
     paymentExecutionDetail: any;
     paymentMethod: string;
     marketplaceId: string;
-    buyerInfo: any;
+    buyerInfo?: any;
     buyerEmail?: string;
     shippingState?: string;
     shippingPostalCode?: string;

@@ -2,7 +2,8 @@ import dotenv from 'dotenv';
 import { AmazonApiService } from './services/AmazonApiService';
 import { AmazonApiConfig } from './utils/types';
 import logger from './config/logger';
-
+import { AppDataSource } from './config/database';
+import { OrderService } from './services/OrderService';
 
 // Load environment variables
 dotenv.config();
@@ -12,7 +13,12 @@ const requiredEnvVars = [
     'AMAZON_CLIENT_ID',
     'AMAZON_CLIENT_SECRET',
     'AMAZON_REFRESH_TOKEN',
-    'AMAZON_REGION'
+    'AMAZON_REGION',
+    'DB_HOST',
+    'DB_PORT',
+    'DB_USERNAME',
+    'DB_PASSWORD',
+    'DB_NAME'
 ];
 
 for (const envVar of requiredEnvVars) {
@@ -31,8 +37,13 @@ const amazonConfig: AmazonApiConfig = {
 
 async function main() {
     try {
-        // Initialize Amazon API Service
+        // Initialize database connection
+        await AppDataSource.initialize();
+        logger.info('Database connection initialized');
+
+        // Initialize services
         const amazonService = new AmazonApiService(amazonConfig);
+        const orderService = new OrderService();
         
         // Example: Get orders from the last 24 hours
         const oneDayAgo = new Date();
@@ -51,7 +62,8 @@ async function main() {
 
         // Process each order to get details and items
         if (orders.payload?.Orders) {
-            for (const order of orders.payload.Orders) {
+            //TODO: Remove the slice(0, 3) after testing
+            for (const order of orders.payload.Orders.slice(0, 3)) {
                 try {
                     // Add delay between requests to avoid rate limiting
                     await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
@@ -65,9 +77,6 @@ async function main() {
                     );
                     logger.info(`Successfully fetched details for order ${order.AmazonOrderId}`);
 
-                    // Add delay between requests
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-
                     // Get order items with retry
                     logger.info(`Fetching items for order ${order.AmazonOrderId}...`);
                     const orderItems = await retryOperation(
@@ -77,9 +86,13 @@ async function main() {
                     );
                     logger.info(`Successfully fetched items for order ${order.AmazonOrderId}`);
 
-                    // Log the results
-                    console.log('Order Details:', JSON.stringify(orderDetails, null, 2));
-                    console.log('Order Items:', JSON.stringify(orderItems, null, 2));
+                    // Save order, details, and items to database
+                    await orderService.saveOrder(order, orderDetails, orderItems.payload?.OrderItems || []);
+                    logger.info(`Successfully saved order ${order.AmazonOrderId} and related data to database`);
+
+                    // Add delay between requests
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+
                 } catch (error) {
                     logger.error(`Error processing order ${order.AmazonOrderId}:`, error);
                     // Continue with next order even if one fails
@@ -91,6 +104,12 @@ async function main() {
     } catch (error) {
         logger.error('Error executing Amazon API service:', error);
         process.exit(1);
+    } finally {
+        // Close database connection
+        if (AppDataSource.isInitialized) {
+            await AppDataSource.destroy();
+            logger.info('Database connection closed');
+        }
     }
 }
 

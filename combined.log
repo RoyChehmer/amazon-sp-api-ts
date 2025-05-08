@@ -70,3 +70,89 @@
 {"level":"info","message":"Successfully fetched items for order 113-8221561-2756200","timestamp":"2025-05-07T17:38:52.914Z"}
 {"level":"info","message":"Fetching details for order 112-6603059-4096260...","timestamp":"2025-05-07T17:38:53.922Z"}
 {"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/112-6603059-4096260","timestamp":"2025-05-07T17:38:53.922Z"}
+{"level":"info","message":"Database connection initialized","timestamp":"2025-05-08T18:37:49.677Z"}
+{"level":"info","message":"Fetching orders...","timestamp":"2025-05-08T18:38:59.256Z"}
+{"level":"info","message":"Successfully obtained new access token","timestamp":"2025-05-08T18:38:59.776Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders?MarketplaceIds=ATVPDKIKX0DER&CreatedAfter=2025-05-05T15%3A17%3A10.745Z&CreatedBefore=2025-05-06T15%3A17%3A10.747Z&OrderStatuses=Shipped&OrderStatuses=Unshipped","timestamp":"2025-05-08T18:38:59.777Z"}
+{"level":"info","message":"Successfully fetched 100 orders","timestamp":"2025-05-08T18:39:01.866Z"}
+{"level":"info","message":"Fetching details for order 113-1808142-1101061...","timestamp":"2025-05-08T18:39:02.872Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061","timestamp":"2025-05-08T18:39:02.873Z"}
+{"level":"info","message":"Successfully fetched details for order 113-1808142-1101061","timestamp":"2025-05-08T18:39:06.975Z"}
+{"code":"23502","column":"numberOfItemsShipped","detail":"Failing row contains (113-1808142-1101061, 113-1808142-1101061, 2025-05-05 18:21:13, 2025-05-07 18:09:33, Shipped, AFN, Amazon.com, null, Expedited, 23.76, USD, {\"City\": \"Pharr\", \"PostalCode\": \"78577\", \"CountryCode\": \"US\", \"S..., {\"BuyerEmail\": \"352ttql7p4tvdvt@marketplace.amazon.com\"}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2025-05-08 18:39:14.757923, 2025-05-08 18:39:14.757923).","driverError":{"code":"23502","column":"numberOfItemsShipped","detail":"Failing row contains (113-1808142-1101061, 113-1808142-1101061, 2025-05-05 18:21:13, 2025-05-07 18:09:33, Shipped, AFN, Amazon.com, null, Expedited, 23.76, USD, {\"City\": \"Pharr\", \"PostalCode\": \"78577\", \"CountryCode\": \"US\", \"S..., {\"BuyerEmail\": \"352ttql7p4tvdvt@marketplace.amazon.com\"}, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 2025-05-08 18:39:14.757923, 2025-05-08 18:39:14.757923).","file":"execMain.c","length":764,"line":"1887","name":"error","routine":"ExecConstraints","schema":"public","severity":"ERROR","table":"amazon_orders"},"file":"execMain.c","length":764,"level":"error","line":"1887","message":"Error processing order 113-1808142-1101061: null value in column \"numberOfItemsShipped\" of relation \"amazon_orders\" violates not-null constraint","parameters":["113-1808142-1101061","113-1808142-1101061","2025-05-05T15:21:13.000Z","2025-05-07T15:09:33.000Z","Shipped","AFN","Amazon.com","Expedited","23.76","USD","{\"StateOrRegion\":\"TX\",\"PostalCode\":\"78577\",\"City\":\"Pharr\",\"CountryCode\":\"US\"}","{\"BuyerEmail\":\"352ttql7p4tvdvt@marketplace.amazon.com\"}"],"query":"INSERT INTO \"amazon_orders\"(\"amazonOrderId\", \"sellerOrderId\", \"purchaseDate\", \"lastUpdateDate\", \"orderStatus\", \"fulfillmentChannel\", \"salesChannel\", \"orderChannel\", \"shipServiceLevel\", \"orderTotal\", \"currency\", \"shippingAddress\", \"buyerInfo\", \"numberOfItemsShipped\", \"numberOfItemsUnshipped\", \"paymentExecutionDetail\", \"paymentMethod\", \"marketplaceId\", \"buyerEmail\", \"shippingState\", \"shippingPostalCode\", \"shippingCity\", \"shippingCountryCode\", \"orderCurrency\", \"orderAmount\", \"automatedShippingSettings\", \"hasRegulatedItems\", \"easyShipShipmentStatus\", \"cbaDisplayableShippingLabel\", \"orderType\", \"earliestShipDate\", \"latestShipDate\", \"earliestDeliveryDate\", \"latestDeliveryDate\", \"isBusinessOrder\", \"isPrime\", \"isPremiumOrder\", \"isGlobalExpressEnabled\", \"replacedOrderId\", \"isReplacementOrder\", \"promiseResponseDueDate\", \"isEstimatedShipDateSet\", \"isSoldByAB\", \"isIBA\", \"defaultShipFromLocationAddress\", \"buyerInvoicePreference\", \"isAccessPointOrder\", \"sellerNote\", \"createdAt\", \"updatedAt\") VALUES ($1, $2, $3, $4, $5, $6, $7, DEFAULT, $8, $9, $10, $11, $12, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT) RETURNING \"createdAt\", \"updatedAt\"","routine":"ExecConstraints","schema":"public","severity":"ERROR","stack":"QueryFailedError: null value in column \"numberOfItemsShipped\" of relation \"amazon_orders\" violates not-null constraint\n    at PostgresQueryRunner.query (C:\\Projects\\amazon-sp-api-ts\\node_modules\\typeorm\\src\\driver\\postgres\\PostgresQueryRunner.ts:328:19)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async InsertQueryBuilder.execute (C:\\Projects\\amazon-sp-api-ts\\node_modules\\src\\query-builder\\InsertQueryBuilder.ts:163:33)\n    at async SubjectExecutor.executeInsertOperations (C:\\Projects\\amazon-sp-api-ts\\node_modules\\src\\persistence\\SubjectExecutor.ts:435:42)\n    at async SubjectExecutor.execute (C:\\Projects\\amazon-sp-api-ts\\node_modules\\src\\persistence\\SubjectExecutor.ts:137:9)\n    at async EntityPersistExecutor.execute (C:\\Projects\\amazon-sp-api-ts\\node_modules\\src\\persistence\\EntityPersistExecutor.ts:182:21)\n    at async OrderService.saveOrder (C:\\Projects\\amazon-sp-api-ts\\src\\services\\OrderService.ts:29:16)\n    at async main (C:\\Projects\\amazon-sp-api-ts\\src\\index.ts:80:21)","table":"amazon_orders","timestamp":"2025-05-08T18:39:38.533Z"}
+{"level":"info","message":"Database connection initialized","timestamp":"2025-05-08T18:43:10.375Z"}
+{"level":"info","message":"Fetching orders...","timestamp":"2025-05-08T18:43:10.377Z"}
+{"level":"info","message":"Successfully obtained new access token","timestamp":"2025-05-08T18:43:10.902Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders?MarketplaceIds=ATVPDKIKX0DER&CreatedAfter=2025-05-05T15%3A17%3A10.745Z&CreatedBefore=2025-05-06T15%3A17%3A10.747Z&OrderStatuses=Shipped&OrderStatuses=Unshipped","timestamp":"2025-05-08T18:43:10.903Z"}
+{"level":"info","message":"Successfully fetched 100 orders","timestamp":"2025-05-08T18:43:12.321Z"}
+{"level":"info","message":"Fetching details for order 113-1808142-1101061...","timestamp":"2025-05-08T18:43:13.326Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061","timestamp":"2025-05-08T18:43:13.327Z"}
+{"level":"info","message":"Successfully fetched details for order 113-1808142-1101061","timestamp":"2025-05-08T18:43:16.896Z"}
+{"level":"info","message":"Successfully saved order 113-1808142-1101061 to database","timestamp":"2025-05-08T18:43:43.379Z"}
+{"level":"info","message":"Fetching items for order 113-1808142-1101061...","timestamp":"2025-05-08T18:44:26.924Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061/orderItems","timestamp":"2025-05-08T18:44:27.679Z"}
+{"level":"info","message":"Database connection initialized","timestamp":"2025-05-08T18:50:45.908Z"}
+{"level":"info","message":"Fetching orders...","timestamp":"2025-05-08T18:50:45.910Z"}
+{"level":"info","message":"Successfully obtained new access token","timestamp":"2025-05-08T18:50:46.416Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders?MarketplaceIds=ATVPDKIKX0DER&CreatedAfter=2025-05-05T15%3A17%3A10.745Z&CreatedBefore=2025-05-06T15%3A17%3A10.747Z&OrderStatuses=Shipped&OrderStatuses=Unshipped","timestamp":"2025-05-08T18:50:46.418Z"}
+{"level":"info","message":"Successfully fetched 100 orders","timestamp":"2025-05-08T18:50:47.971Z"}
+{"level":"info","message":"Fetching details for order 113-1808142-1101061...","timestamp":"2025-05-08T18:50:48.993Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061","timestamp":"2025-05-08T18:50:48.993Z"}
+{"level":"info","message":"Successfully fetched details for order 113-1808142-1101061","timestamp":"2025-05-08T18:50:49.200Z"}
+{"level":"info","message":"Fetching items for order 113-1808142-1101061...","timestamp":"2025-05-08T18:50:49.200Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061/orderItems","timestamp":"2025-05-08T18:50:49.200Z"}
+{"level":"info","message":"Successfully fetched items for order 113-1808142-1101061","timestamp":"2025-05-08T18:50:49.376Z"}
+{"level":"info","message":"Successfully saved order 113-1808142-1101061 and related data to database","timestamp":"2025-05-08T18:51:00.599Z"}
+{"level":"info","message":"Database connection initialized","timestamp":"2025-05-08T18:53:40.522Z"}
+{"level":"info","message":"Fetching orders...","timestamp":"2025-05-08T18:53:40.524Z"}
+{"level":"info","message":"Successfully obtained new access token","timestamp":"2025-05-08T18:53:41.071Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders?MarketplaceIds=ATVPDKIKX0DER&CreatedAfter=2025-05-05T15%3A17%3A10.745Z&CreatedBefore=2025-05-06T15%3A17%3A10.747Z&OrderStatuses=Shipped&OrderStatuses=Unshipped","timestamp":"2025-05-08T18:53:41.073Z"}
+{"level":"info","message":"Successfully fetched 100 orders","timestamp":"2025-05-08T18:53:42.399Z"}
+{"level":"info","message":"Fetching details for order 113-1808142-1101061...","timestamp":"2025-05-08T18:53:43.410Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061","timestamp":"2025-05-08T18:53:43.412Z"}
+{"level":"info","message":"Successfully fetched details for order 113-1808142-1101061","timestamp":"2025-05-08T18:53:43.619Z"}
+{"level":"info","message":"Fetching items for order 113-1808142-1101061...","timestamp":"2025-05-08T18:53:43.619Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061/orderItems","timestamp":"2025-05-08T18:53:43.620Z"}
+{"level":"info","message":"Successfully fetched items for order 113-1808142-1101061","timestamp":"2025-05-08T18:53:43.812Z"}
+{"level":"info","message":"Successfully saved order 113-1808142-1101061 and related data to database","timestamp":"2025-05-08T18:53:47.950Z"}
+{"level":"info","message":"Fetching details for order 111-3544321-8720262...","timestamp":"2025-05-08T18:53:49.971Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262","timestamp":"2025-05-08T18:53:49.972Z"}
+{"level":"info","message":"Successfully fetched details for order 111-3544321-8720262","timestamp":"2025-05-08T18:53:50.459Z"}
+{"level":"info","message":"Fetching items for order 111-3544321-8720262...","timestamp":"2025-05-08T18:53:50.459Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262/orderItems","timestamp":"2025-05-08T18:53:50.459Z"}
+{"level":"info","message":"Successfully fetched items for order 111-3544321-8720262","timestamp":"2025-05-08T18:53:50.651Z"}
+{"level":"info","message":"Successfully saved order 111-3544321-8720262 and related data to database","timestamp":"2025-05-08T18:53:50.680Z"}
+{"level":"info","message":"Fetching details for order 113-6274861-6426625...","timestamp":"2025-05-08T18:53:52.697Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625","timestamp":"2025-05-08T18:53:52.699Z"}
+{"level":"info","message":"Successfully fetched details for order 113-6274861-6426625","timestamp":"2025-05-08T18:53:52.901Z"}
+{"level":"info","message":"Fetching items for order 113-6274861-6426625...","timestamp":"2025-05-08T18:53:52.902Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625/orderItems","timestamp":"2025-05-08T18:53:52.902Z"}
+{"level":"info","message":"Successfully fetched items for order 113-6274861-6426625","timestamp":"2025-05-08T18:53:53.089Z"}
+{"level":"info","message":"Successfully saved order 113-6274861-6426625 and related data to database","timestamp":"2025-05-08T18:53:53.113Z"}
+{"level":"info","message":"Database connection closed","timestamp":"2025-05-08T18:53:54.118Z"}
+{"level":"info","message":"Database connection initialized","timestamp":"2025-05-08T18:55:10.768Z"}
+{"level":"info","message":"Fetching orders...","timestamp":"2025-05-08T18:55:10.770Z"}
+{"level":"info","message":"Successfully obtained new access token","timestamp":"2025-05-08T18:55:11.282Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders?MarketplaceIds=ATVPDKIKX0DER&CreatedAfter=2025-05-05T15%3A17%3A10.745Z&CreatedBefore=2025-05-06T15%3A17%3A10.747Z&OrderStatuses=Shipped&OrderStatuses=Unshipped","timestamp":"2025-05-08T18:55:11.283Z"}
+{"level":"info","message":"Successfully fetched 100 orders","timestamp":"2025-05-08T18:55:12.653Z"}
+{"level":"info","message":"Fetching details for order 113-1808142-1101061...","timestamp":"2025-05-08T18:55:13.655Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061","timestamp":"2025-05-08T18:55:13.657Z"}
+{"level":"info","message":"Successfully fetched details for order 113-1808142-1101061","timestamp":"2025-05-08T18:55:13.863Z"}
+{"level":"info","message":"Fetching items for order 113-1808142-1101061...","timestamp":"2025-05-08T18:55:13.864Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-1808142-1101061/orderItems","timestamp":"2025-05-08T18:55:13.864Z"}
+{"level":"info","message":"Successfully fetched items for order 113-1808142-1101061","timestamp":"2025-05-08T18:55:14.050Z"}
+{"level":"info","message":"Successfully saved order 113-1808142-1101061 and related data to database","timestamp":"2025-05-08T18:55:14.078Z"}
+{"level":"info","message":"Fetching details for order 111-3544321-8720262...","timestamp":"2025-05-08T18:55:16.091Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262","timestamp":"2025-05-08T18:55:16.092Z"}
+{"level":"info","message":"Successfully fetched details for order 111-3544321-8720262","timestamp":"2025-05-08T18:55:16.299Z"}
+{"level":"info","message":"Fetching items for order 111-3544321-8720262...","timestamp":"2025-05-08T18:55:16.300Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/111-3544321-8720262/orderItems","timestamp":"2025-05-08T18:55:16.301Z"}
+{"level":"info","message":"Successfully fetched items for order 111-3544321-8720262","timestamp":"2025-05-08T18:55:16.484Z"}
+{"level":"info","message":"Successfully saved order 111-3544321-8720262 and related data to database","timestamp":"2025-05-08T18:55:16.503Z"}
+{"level":"info","message":"Fetching details for order 113-6274861-6426625...","timestamp":"2025-05-08T18:55:18.521Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625","timestamp":"2025-05-08T18:55:18.522Z"}
+{"level":"info","message":"Successfully fetched details for order 113-6274861-6426625","timestamp":"2025-05-08T18:55:18.733Z"}
+{"level":"info","message":"Fetching items for order 113-6274861-6426625...","timestamp":"2025-05-08T18:55:18.734Z"}
+{"level":"info","message":"https://sellingpartnerapi-na.amazon.com/orders/v0/orders/113-6274861-6426625/orderItems","timestamp":"2025-05-08T18:55:18.734Z"}
+{"level":"info","message":"Successfully fetched items for order 113-6274861-6426625","timestamp":"2025-05-08T18:55:18.925Z"}
+{"level":"info","message":"Successfully saved order 113-6274861-6426625 and related data to database","timestamp":"2025-05-08T18:55:18.943Z"}
+{"level":"info","message":"Database connection closed","timestamp":"2025-05-08T18:55:19.956Z"}

@@ -6,32 +6,41 @@ export class AmazonOrder implements IAmazonOrder {
     @PrimaryColumn()
     amazonOrderId!: string;
 
-    @Column({ type: 'timestamp with time zone' })
+    @Column({ nullable: true })
+    sellerOrderId?: string;
+
+    @Column()
     purchaseDate!: Date;
 
-    @Column({ type: 'timestamp with time zone' })
-    lastUpdateDate!: Date;
+    @Column({ nullable: true })
+    lastUpdateDate?: Date;
 
     @Column()
     orderStatus!: string;
 
-    @Column()
-    fulfillmentChannel!: string;
+    @Column({ nullable: true })
+    fulfillmentChannel?: string;
 
-    @Column()
-    salesChannel!: string;
+    @Column({ nullable: true })
+    salesChannel?: string;
 
-    @Column()
-    orderChannel!: string;
+    @Column({ nullable: true })
+    orderChannel?: string;
 
-    @Column()
-    shipServiceLevel!: string;
+    @Column({ nullable: true })
+    shipServiceLevel?: string;
 
-    @Column('jsonb')
-    shippingAddress!: any;
+    @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+    orderTotal?: number;
 
-    @Column('jsonb')
-    orderTotal!: any;
+    @Column({ nullable: true })
+    currency?: string;
+
+    @Column({ type: 'jsonb', nullable: true })
+    shippingAddress?: any;
+
+    @Column({ type: 'jsonb', nullable: true })
+    buyerInfo?: any;
 
     @Column()
     numberOfItemsShipped!: number;
@@ -47,9 +56,6 @@ export class AmazonOrder implements IAmazonOrder {
 
     @Column()
     marketplaceId!: string;
-
-    @Column('jsonb')
-    buyerInfo!: any;
 
     @Column({ nullable: true })
     buyerEmail?: string;
@@ -137,9 +143,6 @@ export class AmazonOrder implements IAmazonOrder {
 
     @Column({ nullable: true })
     isAccessPointOrder?: boolean;
-
-    @Column({ nullable: true })
-    sellerOrderId?: string;
 
     @Column({ nullable: true })
     sellerNote?: string;
