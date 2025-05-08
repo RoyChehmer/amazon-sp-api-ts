@@ -3,6 +3,7 @@ import { AppDataSource } from '../config/database';
 import { AmazonOrder } from '../models/Order';
 import { OrderDetails } from '../models/OrderDetails';
 import { OrderItem } from '../models/OrderItem';
+import logger from '../config/logger';
 
 export class OrderService {
     private orderRepository: Repository<AmazonOrder>;
@@ -59,7 +60,7 @@ export class OrderService {
             buyerInfo: orderData.BuyerInfo || {},
             ...orderDetailsData
         });
-        const savedDetails = await this.orderDetailsRepository.save(details);
+        await this.orderDetailsRepository.save(details);
 
         // Save order items
         const items = orderItemsData.map(itemData => this.orderItemRepository.create({
@@ -99,7 +100,7 @@ export class OrderService {
         }));
         const savedItems = await this.orderItemRepository.save(items);
 
-        // Fetch the saved details to ensure we have the complete entity
+        // Fetch the complete saved details
         const completeDetails = await this.orderDetailsRepository.findOne({ where: { amazonOrderId: orderData.AmazonOrderId } });
         if (!completeDetails) {
             throw new Error('Failed to save order details');

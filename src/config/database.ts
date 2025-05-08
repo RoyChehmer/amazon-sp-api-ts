@@ -1,4 +1,7 @@
 import { DataSource } from 'typeorm';
+import { AmazonOrder } from '../models/Order';
+import { OrderDetails } from '../models/OrderDetails';
+import { OrderItem } from '../models/OrderItem';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -12,7 +15,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME || 'amazon_orders',
     synchronize: true,
     logging: true,
-    entities: ['src/models/**/*.ts'],
-    migrations: ['src/migrations/**/*.ts'],
-    subscribers: ['src/subscribers/**/*.ts'],
+    entities: [AmazonOrder, OrderDetails, OrderItem],
+    subscribers: [],
+    migrations: [],
 }); 
