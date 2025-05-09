@@ -27,37 +27,34 @@ for (const envVar of requiredEnvVars) {
     }
 }
 
-// Create Amazon API configuration
-const amazonConfig: AmazonApiConfig = {
-    clientId: process.env.AMAZON_CLIENT_ID!,
-    clientSecret: process.env.AMAZON_CLIENT_SECRET!,
-    refreshToken: process.env.AMAZON_REFRESH_TOKEN!,
-    region: process.env.AMAZON_REGION!
-};
-
 async function main() {
     try {
         // Initialize database connection
         await AppDataSource.initialize();
         logger.info('Database connection initialized');
 
-        // Initialize services
+        // Initialize Amazon API service
+        const amazonConfig: AmazonApiConfig = {
+            clientId: process.env.AMAZON_CLIENT_ID!,
+            clientSecret: process.env.AMAZON_CLIENT_SECRET!,
+            refreshToken: process.env.AMAZON_REFRESH_TOKEN!,
+            region: process.env.AMAZON_REGION || 'na'
+        };
         const amazonService = new AmazonApiService(amazonConfig);
         const orderService = new OrderService();
-        
-        // Example: Get orders from the last 24 hours
-        const oneDayAgo = new Date();
-        oneDayAgo.setDate(oneDayAgo.getDate() - 1);
-        
+
+        // Get marketplace participations first
+        logger.info('Fetching marketplace participations...');
+        const marketplaceParticipations = await amazonService.getMarketplaceParticipations();
+        logger.info('Marketplace participations:', marketplaceParticipations);
+
+        // Get orders with retry
         logger.info('Fetching orders...');
-          
-        const orders = await amazonService.getOrders(
-            oneDayAgo.toISOString(),
-            new Date().toISOString(),
-            ['Shipped', 'Unshipped'],
-            ['ATVPDKIKX0DER'] // US marketplace ID
+        const orders = await retryOperation(
+            () => amazonService.getOrders(),
+            3, // max retries
+            1000 // delay between retries in ms
         );
-        
         logger.info(`Successfully fetched ${orders.payload?.Orders?.length || 0} orders`);
 
         // Process each order to get details and items
@@ -95,21 +92,17 @@ async function main() {
 
                 } catch (error) {
                     logger.error(`Error processing order ${order.AmazonOrderId}:`, error);
-                    // Continue with next order even if one fails
-                    continue;
                 }
             }
         }
-        
-    } catch (error) {
-        logger.error('Error executing Amazon API service:', error);
-        process.exit(1);
-    } finally {
+
         // Close database connection
-        if (AppDataSource.isInitialized) {
-            await AppDataSource.destroy();
-            logger.info('Database connection closed');
-        }
+        await AppDataSource.destroy();
+        logger.info('Database connection closed');
+
+    } catch (error) {
+        logger.error('Error in main function:', error);
+        process.exit(1);
     }
 }
 

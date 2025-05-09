@@ -120,6 +120,10 @@ export class AmazonApiService {
         return this.makeRequest(`/orders/v0/orders/${orderId}/orderItems`, params);
     }
 
+    async getMarketplaceParticipations(): Promise<any> {
+        return this.makeRequest('/sellers/v1/marketplaceParticipations');
+    }
+
     async getAllPages(endpoint: string, params: any = {}, pageLimit?: number): Promise<any[]> {
         const allResponses = [];
         let nextToken = params.NextToken;
