@@ -14,7 +14,7 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASSWORD || 'postgres',
     database: process.env.DB_NAME || 'amazon_orders',
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: [AmazonOrder, OrderDetails, OrderItem],
     subscribers: [],
     migrations: [],

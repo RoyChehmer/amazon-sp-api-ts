@@ -210,3 +210,4 @@
 {"level":"info","message":"Successfully fetched items for order 113-6274861-6426625","timestamp":"2025-05-08T19:11:18.217Z"}
 {"level":"info","message":"Successfully saved order 113-6274861-6426625 and related data to database","timestamp":"2025-05-08T19:11:18.240Z"}
 {"level":"info","message":"Database connection closed","timestamp":"2025-05-08T19:11:19.243Z"}
+{"level":"info","message":"Database connection initialized","timestamp":"2025-05-08T19:42:12.862Z"}
