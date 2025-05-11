@@ -16,7 +16,47 @@ export class OrderService {
         this.orderItemRepository = AppDataSource.getRepository(OrderItem);
     }
 
-    async saveOrder(orderData: any, orderDetailsData: any, orderItemsData: any[]): Promise<{ order: AmazonOrder; details: OrderDetails; items: OrderItem[] }> {
+    async saveOrder(orderData: any, orderDetailsData: any, orderItemsData: any): Promise<{ order: AmazonOrder; details: OrderDetails; items: OrderItem[] }> {
+        // Validate input data
+        if (!orderData || !orderData.AmazonOrderId) {
+            throw new Error('Invalid order data: AmazonOrderId is required');
+        }
+
+        // Debug logging
+        logger.info(JSON.stringify(orderItemsData));
+        logger.info('orderItemsData type:', typeof orderItemsData);
+        logger.info('orderItemsData keys:', Object.keys(orderItemsData));
+
+        // Extract order items from the nested structure
+        let items;
+        if (typeof orderItemsData === 'string') {
+            try {
+                orderItemsData = JSON.parse(orderItemsData);
+            } catch (error) {
+                logger.error('Failed to parse orderItemsData as JSON:', error);
+                throw new Error('Invalid orderItemsData format');
+            }
+        }
+
+        // Handle the payload structure
+        if (orderItemsData?.payload?.OrderItems) {
+            items = orderItemsData.payload.OrderItems;
+            logger.info('Extracted OrderItems from payload:', JSON.stringify(items, null, 2));
+        } else if (orderItemsData?.OrderItems) {
+            items = orderItemsData.OrderItems;
+            logger.info('Extracted OrderItems:', JSON.stringify(items, null, 2));
+        } else {
+            logger.warn('No OrderItems found in data, using empty array');
+            items = [];
+        }
+
+        if (!Array.isArray(items)) {
+            logger.warn('OrderItems is not an array, converting to array');
+            items = [items];
+        }
+
+        logger.info('Final items array:', JSON.stringify(items, null, 2));
+
         // Save main order
         const order = this.orderRepository.create({
             amazonOrderId: orderData.AmazonOrderId,
@@ -63,42 +103,64 @@ export class OrderService {
         await this.orderDetailsRepository.save(details);
 
         // Save order items
-        const items = orderItemsData.map(itemData => this.orderItemRepository.create({
-            amazonOrderId: orderData.AmazonOrderId,
-            asin: itemData.ASIN,
-            sellerSku: itemData.SellerSKU,
-            orderItemId: itemData.OrderItemId,
-            title: itemData.Title,
-            quantityOrdered: itemData.QuantityOrdered,
-            quantityShipped: itemData.QuantityShipped,
-            productInfo: itemData.ProductInfo,
-            pointsGranted: itemData.PointsGranted,
-            itemPrice: itemData.ItemPrice,
-            shippingPrice: itemData.ShippingPrice,
-            itemTax: itemData.ItemTax,
-            shippingTax: itemData.ShippingTax,
-            shippingDiscount: itemData.ShippingDiscount,
-            shippingDiscountTax: itemData.ShippingDiscountTax,
-            promotionDiscount: itemData.PromotionDiscount,
-            promotionDiscountTax: itemData.PromotionDiscountTax,
-            promotionIds: itemData.PromotionIds,
-            codFee: itemData.CODFee,
-            codFeeDiscount: itemData.CODFeeDiscount,
-            isGift: itemData.IsGift,
-            conditionNote: itemData.ConditionNote,
-            conditionId: itemData.ConditionId,
-            conditionSubtypeId: itemData.ConditionSubtypeId,
-            scheduledDeliveryStartDate: itemData.ScheduledDeliveryStartDate ? new Date(itemData.ScheduledDeliveryStartDate) : undefined,
-            scheduledDeliveryEndDate: itemData.ScheduledDeliveryEndDate ? new Date(itemData.ScheduledDeliveryEndDate) : undefined,
-            priceDesignation: itemData.PriceDesignation,
-            taxCollection: itemData.TaxCollection,
-            serialNumberRequired: itemData.SerialNumberRequired,
-            isTransparency: itemData.IsTransparency,
-            iossNumber: itemData.IossNumber,
-            storeChainStoreId: itemData.StoreChainStoreId,
-            deemedResellerCategory: itemData.DeemedResellerCategory
-        }));
-        const savedItems = await this.orderItemRepository.save(items);
+        const orderItems = items.map(itemData => {
+            if (!itemData) {
+                logger.warn('Skipping null or undefined order item');
+                return null;
+            }    
+
+            logger.info('Processing item data:', JSON.stringify(itemData, null, 2));
+
+            try {
+                const createdItem = this.orderItemRepository.create({
+                    amazonOrderId: orderData.AmazonOrderId,
+                    asin: itemData.ASIN,
+                    sellerSku: itemData.SellerSKU || '',
+                    orderItemId: itemData.OrderItemId,
+                    title: itemData.Title || '',
+                    quantityOrdered: itemData.QuantityOrdered || 0,
+                    quantityShipped: itemData.QuantityShipped || 0,
+                    productInfo: itemData.ProductInfo || {},
+                    pointsGranted: itemData.PointsGranted || {},
+                    itemPrice: itemData.ItemPrice || {},
+                    shippingPrice: itemData.ShippingPrice || {},
+                    itemTax: itemData.ItemTax || {},
+                    shippingTax: itemData.ShippingTax || {},
+                    shippingDiscount: itemData.ShippingDiscount || {},
+                    shippingDiscountTax: itemData.ShippingDiscountTax || {},
+                    promotionDiscount: itemData.PromotionDiscount || {},
+                    promotionDiscountTax: itemData.PromotionDiscountTax || {},
+                    promotionIds: itemData.PromotionIds || [],
+                    codFee: itemData.CODFee || {},
+                    codFeeDiscount: itemData.CODFeeDiscount || {},
+                    isGift: itemData.IsGift === 'true' || false,
+                    conditionNote: itemData.ConditionNote || '',
+                    conditionId: itemData.ConditionId || '',
+                    conditionSubtypeId: itemData.ConditionSubtypeId || '',
+                    scheduledDeliveryStartDate: itemData.ScheduledDeliveryStartDate ? new Date(itemData.ScheduledDeliveryStartDate) : undefined,
+                    scheduledDeliveryEndDate: itemData.ScheduledDeliveryEndDate ? new Date(itemData.ScheduledDeliveryEndDate) : undefined,
+                    priceDesignation: itemData.PriceDesignation || '',
+                    taxCollection: itemData.TaxCollection || {},
+                    serialNumberRequired: itemData.SerialNumberRequired || false,
+                    isTransparency: itemData.IsTransparency || false,
+                    iossNumber: itemData.IossNumber || '',
+                    storeChainStoreId: itemData.StoreChainStoreId || '',
+                    deemedResellerCategory: itemData.DeemedResellerCategory || ''
+                });                
+                return createdItem;
+            } catch (error) {
+                logger.error(`Error creating order item for order ${orderData.AmazonOrderId}:`, error);
+                return null;
+            }
+        });
+        
+        const filteredNullRecordsItems = orderItems.filter(item => item !== null) as OrderItem[];        
+        if (filteredNullRecordsItems.length === 0) {
+            logger.warn(`No valid order items found for order ${orderData.AmazonOrderId}`);
+        }
+
+        const savedItems = await this.orderItemRepository.save(filteredNullRecordsItems);
+        logger.info('Saved items:'+ JSON.stringify(savedItems));
 
         // Fetch the complete saved details
         const completeDetails = await this.orderDetailsRepository.findOne({ where: { amazonOrderId: orderData.AmazonOrderId } });
