@@ -57,8 +57,8 @@ async function main() {
         const reportResponse = await amazonApiService.createReport(
             reportType, 
             marketplaceIds, 
-            '2025-05-05T00:00:00Z', 
-            '2025-05-06T00:00:00Z'
+            process.env.DATE_START_TIME, 
+            process.env.DATE_END_TIME
         );
         logger.info('Created report:', reportResponse);
 
@@ -67,7 +67,7 @@ async function main() {
         let reportId = reportResponse.reportId;
         let reportDocumentId;
 
-        while (reportStatus === 'IN_PROGRESS') {
+        while (reportStatus === 'IN_PROGRESS' || reportStatus === 'IN_QUEUE') {
             await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds between checks
             const report = await amazonApiService.getReport(reportId);
             reportStatus = report.processingStatus;
@@ -85,13 +85,47 @@ async function main() {
         if (reportDocumentId) {
             const reportDocument = await amazonApiService.getReportDocument(reportDocumentId);
             logger.info('Got report document:', reportDocument);
-            // TODO: Process the report document data
+            
+            // Process report document data
+            const reportRecords = [];
+            if (reportDocument.url) {
+                try {
+                    // Fetch the report data from the URL
+                    const response = await fetch(reportDocument.url);
+                    const reportData = await response.text();
+                    
+                    // Parse the report data (assuming it's tab-delimited)
+                    const lines = reportData.split('\n');
+                    const headers = lines[0].split('\t');
+                    
+                    // Process each line (skip header)
+                    for (let i = 1; i < lines.length; i++) {
+                        if (!lines[i].trim()) continue; // Skip empty lines
+                        
+                        const values = lines[i].split('\t');
+                        const record: Record<string, string> = {};
+                        
+                        // Map values to headers
+                        headers.forEach((header, index) => {
+                            record[header] = values[index] || '';
+                        });
+                        
+                        reportRecords.push(record);
+                    }
+                    
+                    logger.info(`Processed ${reportRecords.length} records from report document`);
+                } catch (error) {
+                    logger.error('Error fetching report data:', error);
+                    throw error;
+                }
+            }
+            // Now reportRecords array contains all the records from the report
         }
 
         // Get orders
         const ordersParams = {
-            CreatedAfter: '2025-05-05T15:17:10.745Z',
-            CreatedBefore: '2025-05-06T15:17:10.747Z',
+            CreatedAfter: process.env.DATE_START_TIME,             
+            CreatedBefore: process.env.DATE_END_TIME,
             OrderStatuses: ['Shipped', 'Unshipped', 'PartiallyShipped'],
             MarketplaceIds: marketplaceIds
             //MarketplaceIds: ['ATVPDKIKX0DER']
