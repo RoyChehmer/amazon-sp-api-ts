@@ -5,6 +5,7 @@ import logger from './config/logger';
 import { AppDataSource } from './config/database';
 import { OrderService } from './services/OrderService';
 import { MarketplaceService } from './services/MarketplaceService';
+import { ReportService } from './services/ReportService';
 
 // Load environment variables
 dotenv.config();
@@ -42,6 +43,7 @@ async function main() {
         const amazonApiService = new AmazonApiService(amazonConfig);
         const orderService = new OrderService();
         const marketplaceService = new MarketplaceService();
+        const reportService = new ReportService();
 
         // Get marketplace participations
         const marketplaceData = await amazonApiService.getMarketplaceParticipations();
@@ -62,64 +64,125 @@ async function main() {
         );
         logger.info('Created report:', reportResponse);
 
+        // Save initial report metadata
+        await reportService.saveReport({
+            reportId: reportResponse.reportId,
+            reportType,
+            marketplaceIds,
+            dateStartTime: process.env.DATE_START_TIME,
+            dateEndTime: process.env.DATE_END_TIME,
+            processingStatus: 'IN_PROGRESS'
+        });
+
         // Poll for report completion
         let reportStatus = 'IN_PROGRESS';
         let reportId = reportResponse.reportId;
         let reportDocumentId;
+        let maxAttempts = 12; // 1 minute total (5 seconds * 12)
+        let attempts = 0;
 
-        while (reportStatus === 'IN_PROGRESS' || reportStatus === 'IN_QUEUE') {
+        while ((reportStatus === 'IN_PROGRESS' || reportStatus === 'IN_QUEUE') && attempts < maxAttempts) {
             await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds between checks
             const report = await amazonApiService.getReport(reportId);
             reportStatus = report.processingStatus;
-            logger.info(`Report status: ${reportStatus}`);
+            attempts++;
+            logger.info(`Report status: ${reportStatus} (Attempt ${attempts}/${maxAttempts})`);
             
             if (reportStatus === 'DONE') {
                 reportDocumentId = report.reportDocumentId;
+                // Update report metadata with document ID and final status
+                await reportService.saveReport({
+                    reportId,
+                    reportType,
+                    marketplaceIds,
+                    dateStartTime: process.env.DATE_START_TIME,
+                    dateEndTime: process.env.DATE_END_TIME,
+                    reportDocumentId,
+                    processingStatus: reportStatus
+                });
                 break;
             } else if (reportStatus === 'FATAL' || reportStatus === 'CANCELLED') {
+                // Update report metadata with error status
+                await reportService.saveReport({
+                    reportId,
+                    reportType,
+                    marketplaceIds,
+                    dateStartTime: process.env.DATE_START_TIME,
+                    dateEndTime: process.env.DATE_END_TIME,
+                    processingStatus: reportStatus
+                });
                 throw new Error(`Report failed with status: ${reportStatus}`);
             }
         }
 
+        if (attempts >= maxAttempts) {
+            logger.error('Report processing timed out after 1 minute');
+            throw new Error('Report processing timed out');
+        }
+
         // Get report document
-        if (reportDocumentId) {
-            const reportDocument = await amazonApiService.getReportDocument(reportDocumentId);
-            logger.info('Got report document:', reportDocument);
-            
-            // Process report document data
-            const reportRecords = [];
-            if (reportDocument.url) {
-                try {
-                    // Fetch the report data from the URL
-                    const response = await fetch(reportDocument.url);
-                    const reportData = await response.text();
-                    
-                    // Parse the report data (assuming it's tab-delimited)
-                    const lines = reportData.split('\n');
-                    const headers = lines[0].split('\t');
-                    
-                    // Process each line (skip header)
-                    for (let i = 1; i < lines.length; i++) {
-                        if (!lines[i].trim()) continue; // Skip empty lines
-                        
-                        const values = lines[i].split('\t');
-                        const record: Record<string, string> = {};
-                        
-                        // Map values to headers
-                        headers.forEach((header, index) => {
-                            record[header] = values[index] || '';
-                        });
-                        
-                        reportRecords.push(record);
-                    }
-                    
-                    logger.info(`Processed ${reportRecords.length} records from report document`);
-                } catch (error) {
-                    logger.error('Error fetching report data:', error);
-                    throw error;
-                }
+        if (!reportDocumentId) {
+            logger.error('No report document ID available');
+            throw new Error('No report document ID available');
+        }
+
+        const reportDocument = await amazonApiService.getReportDocument(reportDocumentId);
+        logger.info('Got report document:', reportDocument);
+
+        if (!reportDocument.url) {
+            logger.error('No download URL in report document');
+            throw new Error('No download URL in report document');
+        }
+
+        // Process report document data
+        const reportRecords = [];
+        try {
+            // Fetch the report data from the URL
+            const response = await fetch(reportDocument.url);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch report data: ${response.status} ${response.statusText}`);
             }
-            // Now reportRecords array contains all the records from the report
+            const reportData = await response.text();
+            
+            // Parse the report data (assuming it's tab-delimited)
+            const lines = reportData.split('\n');
+            if (lines.length < 2) {
+                throw new Error('Report data is empty or invalid');
+            }
+
+            const headers = lines[0].split('\t');
+            
+            // Process each line (skip header)
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue; // Skip empty lines
+             
+                const values = lines[i].split('\t');
+                const record: Record<string, string> = {};
+                
+                // Map values to headers
+                headers.forEach((header, index) => {
+                    record[header] = values[index] || '';
+                });
+                
+                reportRecords.push(record);
+            }
+            
+            logger.info(`Processed ${reportRecords.length} records from report document`);
+            
+            // Save report metadata to database
+            await reportService.saveReport({
+                reportId,
+                reportType,
+                marketplaceIds,
+                dateStartTime: process.env.DATE_START_TIME,
+                dateEndTime: process.env.DATE_END_TIME,
+                reportDocumentId,
+                processingStatus: reportStatus
+            });
+            logger.info(`Saved report metadata for report ${reportId}`);
+        } catch (error) {
+            logger.error('Error fetching report data:', error);
+            throw error;
         }
 
         // Get orders

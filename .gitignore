@@ -3,6 +3,10 @@ node_modules/
 
 *.log
 
+# Output
+logs/
+*.json
+
 # Logs
 logs/
 *.log

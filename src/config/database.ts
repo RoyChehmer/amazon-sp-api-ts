@@ -3,6 +3,7 @@ import { AmazonOrder } from '../models/Order';
 import { OrderDetails } from '../models/OrderDetails';
 import { OrderItem } from '../models/OrderItem';
 import { MarketplaceParticipation } from '../models/MarketplaceParticipation';
+import { AmazonReport } from '../models/AmazonReport';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -16,7 +17,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME || 'amazon_orders',
     synchronize: true,
     logging: true,
-    entities: [AmazonOrder, OrderDetails, OrderItem, MarketplaceParticipation],
+    entities: [AmazonOrder, OrderDetails, OrderItem, MarketplaceParticipation, AmazonReport],
     subscribers: [],
     migrations: [],
 }); 
