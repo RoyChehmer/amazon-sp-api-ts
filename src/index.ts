@@ -6,6 +6,7 @@ import { AppDataSource } from './config/database';
 import { OrderService } from './services/OrderService';
 import { MarketplaceService } from './services/MarketplaceService';
 import { ReportService } from './services/ReportService';
+import { DocumentService } from './services/DocumentService';
 
 // Load environment variables
 dotenv.config();
@@ -44,6 +45,7 @@ async function main() {
         const orderService = new OrderService();
         const marketplaceService = new MarketplaceService();
         const reportService = new ReportService();
+        const documentService = new DocumentService();
 
         // Get marketplace participations
         const marketplaceData = await amazonApiService.getMarketplaceParticipations();
@@ -169,21 +171,21 @@ async function main() {
             
             logger.info(`Processed ${reportRecords.length} records from report document`);
             
-            // Save report metadata to database
-            await reportService.saveReport({
+            // Save document records to database
+            await documentService.saveDocument({
                 reportId,
-                reportType,
-                marketplaceIds,
-                dateStartTime: process.env.DATE_START_TIME,
-                dateEndTime: process.env.DATE_END_TIME,
                 reportDocumentId,
-                processingStatus: reportStatus
+                headers,
+                records: reportRecords
             });
-            logger.info(`Saved report metadata for report ${reportId}`);
+            logger.info(`Saved document records for report ${reportId}`);
+            
         } catch (error) {
             logger.error('Error fetching report data:', error);
             throw error;
         }
+
+        
 
         // Get orders
         const ordersParams = {
